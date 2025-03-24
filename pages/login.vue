@@ -1,53 +1,31 @@
 <template>
-  <BaseContainerLogin :header="header">
-      <BlockForm class="rounded-md -space-y-px"  @submit="handleFormSubmit">
-        <TWInput v-model="email" placeholder="Введите email" :rules="validateEmail"/>
-        <TWInput v-model="password" placeholder="Пароль" type="password" :rules="validatePassword"/>
+  <BaseContainerLogin :header="headerBlock">
+      <BlockForm class="rounded-md -space-y-px"  @submit="handleLogin">
+        <TWInput v-model="username" placeholder="Введите email" :invalid="isHasError" />
+        <TWInput v-model="password" placeholder="Пароль" :invalid="isHasError" type="password" />
+        <TWError :error="authStore.getError" />
       </BlockForm>
   </BaseContainerLogin>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import TWInput from '~/elements/input/index.vue'
+import TWInput from '~/elements/Input/index.vue'
+import TWError from "~/elements/Error/index.vue"
+import { useAuthStore } from "~/store/auth.store"
 
-const header = {
+const headerBlock = {
   title: "Вход в аккаунт"
 }
-const login = ref('')
-const password = ref('')
-const error = ref(false)
-const router = useRouter()
+const authStore = useAuthStore();
+const username = ref("");
+const password = ref("");
 
-const handleSubmit = async () => {
-  try {
-    // Создаем JSON объект с данными
-    const authData = {
-      login: login.value,
-      password: password.value
-    }
+const isHasError = computed(() => !!authStore.getError)
 
-    // Здесь должен быть запрос к API
-    // Пример:
-    // const response = await fetch('/api/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(authData)
-    // })
-
-    // Для примера сделаем простую проверку
-    if (login.value === 'admin' && password.value === 'password') {
-      error.value = false
-      router.push('/dashboard')
-    } else {
-      error.value = true
-    }
-  } catch (err) {
-    error.value = true
-    console.error('Ошибка авторизации:', err)
+const handleLogin = () => {
+  if (authStore.login(username.value, password.value)) {
+    navigateTo('/')
   }
-}
+};
 </script>

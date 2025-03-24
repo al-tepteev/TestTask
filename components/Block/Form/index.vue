@@ -10,13 +10,21 @@
   </form>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { defineEmits } from "vue";
+import type { Error } from "~/types/Error";
 
 const emit = defineEmits(["submit"]);
 
+const props = defineProps({
+  error: {
+    type: Object as () => Error, // Функция для создания объекта типа Error
+    default: () => ({ message: "" }) // Указание дефолтного значения
+  }
+});
+
 const handleSubmit = () => {
-  if (!hasErrors.value) {
+  if (!props.error.message) {
     emit("submit");
   }
 };
