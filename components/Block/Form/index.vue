@@ -11,18 +11,13 @@
 </template>
 
 <script setup>
-import { provide, reactive, defineEmits, computed } from "vue";
+import { defineEmits } from "vue";
 
 const emit = defineEmits(["submit"]);
-const formErrors = reactive({});
-
-provide("formErrors", formErrors);
-
-const hasErrors = computed(() => Object.keys(formErrors).length > 0);
 
 const handleSubmit = () => {
   if (!hasErrors.value) {
-    emit("submit", formData);
+    emit("submit");
   }
 };
 </script>
