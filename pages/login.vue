@@ -12,7 +12,7 @@
 import { ref } from 'vue'
 import TWInput from '~/elements/Input/index.vue'
 import TWError from "~/elements/Error/index.vue"
-import { useAuthStore } from "~/store/auth.store"
+import { useAuthStore } from "~/store/auth/index.store"
 
 const headerBlock = {
   title: "Вход в аккаунт"
@@ -23,8 +23,10 @@ const password = ref("");
 
 const isHasError = computed(() => !!authStore.getError)
 
-const handleLogin = () => {
-  if (authStore.login(username.value, password.value)) {
+async function handleLogin() {
+  const isLogin = await authStore.login(username.value, password.value)
+  
+  if (isLogin) {
     navigateTo('/')
   }
 };
