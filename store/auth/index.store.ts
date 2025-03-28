@@ -75,6 +75,7 @@ export const useAuthStore = defineStore("auth", {
       const authCookie = useCookie('auth');
       authCookie.value = null;
       this.user = null;
+      navigateTo("/login/")
     }
   },
 
