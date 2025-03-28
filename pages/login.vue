@@ -25,9 +25,9 @@ const isHasError = computed(() => !!authStore.getError)
 
 async function handleLogin() {
   const isLogin = await authStore.login(username.value, password.value)
-  
+
   if (isLogin) {
-    navigateTo('/')
+    navigateTo('/account/')
   }
 };
 </script>
