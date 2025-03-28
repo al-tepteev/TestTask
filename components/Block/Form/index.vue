@@ -3,16 +3,14 @@
     <div class="content-form space-y-4">
       <slot></slot>
     </div>
-    <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300"
-    >
-      Отправить
-    </button>
+    <TWButton value="отправить" />
   </form>
 </template>
 
 <script setup lang="ts">
 import { defineEmits } from "vue";
 import type { Error } from "~/types/Error";
+import TWButton from "@/elements/Button/index.vue"
 
 const emit = defineEmits(["submit"]);
 
